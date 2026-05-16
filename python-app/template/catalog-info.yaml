@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name }}
+  description: An example of a Backstage application named ${{ values.name }}.
+  annotations:
+    github.com/project-slug: donascimentomarcelo/${{ values.name }}
+spec:
+  type: website
+  owner: john@example.com
+  lifecycle: experimental
