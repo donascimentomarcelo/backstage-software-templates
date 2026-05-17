@@ -1,11 +1,12 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{ values.name }}
-  description: An example of a Backstage application named ${{ values.name }}.
+  name: ${{values.name}}
+  description: Python app that displays time - named ${{values.name}}.
   annotations:
-    github.com/project-slug: donascimentomarcelo/${{ values.name }}
+    github.com/project-slug: ricardoandre97/${{values.name}}
+    backstage.io/techdocs-ref: dir:.
 spec:
-  type: website
-  owner: ${{ values.owner }}
+  type: service
+  owner: development
   lifecycle: experimental

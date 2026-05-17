@@ -15,20 +15,20 @@ spec:
     - title: Fill in some steps
       required:
         - name
+        - environment
       properties:
         name:
           title: Name
           type: string
           description: Unique name of the component and repository
           ui:autofocus: true
-        owner:
-          title: Owner
+        environment:
+          title: Environment
           type: string
-          description: Owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            catalogFilter:
-              kind: Group
+          description: The environment where this component will be deployed
+          enum:
+            - dev
+            - prod
   # here's the steps that are executed in series in the scaffolder backend
   steps:
     - id: fetchBase
@@ -38,7 +38,7 @@ spec:
         url: ./template
         values:
           name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
+          env: ${{ parameters.environment }}
 
     - id: publish
       name: Publish
