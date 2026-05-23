@@ -1,11 +1,13 @@
 name: ${{values.name}}-cicd
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - src/**
+      - .github/workflows/**
     branches:
-      - master
+      - main
 
 jobs:
   ci:
@@ -13,9 +15,11 @@ jobs:
     steps:
 
       - name: Shorten commit id
+        id: vars
         shell: bash
         run: |
           echo "COMMIT_ID=${GITHUB_SHA::6}" >> "$GITHUB_ENV"
+          echo "commit_id=${GITHUB_SHA::6}" >> "$GITHUB_OUTPUT"
       -
         name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -29,7 +33,7 @@ jobs:
           push: true
           tags: ricardoandre9707/${{values.name}}:${{ '${{ env.COMMIT_ID }}' }}
     outputs:
-      commit_id: ${{ '${{ env.COMMIT_ID }} '}}
+      commit_id: ${{ '${{ steps.vars.outputs.commit_id }}' }}
 
   cd:
     needs: ci
@@ -41,14 +45,14 @@ jobs:
       - name: Modify values file
         shell: bash
         run: |
-          echo ${{needs.ci.outputs.commit_id}}
+          echo ${{ '${{ needs.ci.outputs.commit_id }}' }}
           pip install yq
-          yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/${{values.name}}/values-${{values.env}}.yaml
+          yq -Yi '.image.tag = "${{ '${{ needs.ci.outputs.commit_id }}' }}"' charts/${{values.name}}/values-${{values.env}}.yaml
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Updates values.yaml with commit ${{needs.ci.outputs.commit_id}}'
+          message: 'Updates values.yaml with commit ${{ '${{ needs.ci.outputs.commit_id }}' }}'
 
       - name: Install argocd
         shell: bash
