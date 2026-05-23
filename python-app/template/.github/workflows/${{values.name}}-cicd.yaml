@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ricardoandre9707/${{values.name}}:${{ '${{ env.COMMIT_ID }}' }}
+          tags: donascimentomarcelo/${{values.name}}:${{ '${{ env.COMMIT_ID }}' }}
     outputs:
       commit_id: ${{ '${{ steps.vars.outputs.commit_id }}' }}
 
