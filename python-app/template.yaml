@@ -47,6 +47,7 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: github.com?owner=santanna-marcelo&repo=${{ parameters.name }}
         protectDefaultBranch: false
+        repoVisibility: public
 
     - id: register
       name: Register
